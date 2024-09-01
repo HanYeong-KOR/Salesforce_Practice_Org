@@ -1,0 +1,36 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 05-24-2024
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container slds-is-relative billing-comp" id="subTitleModal">
+            <header class="slds-modal__header">
+                <h2 aura:id="test" class="slds-modal__title slds-hyphenate" value="test1">Edit Target Value</h2>
+            </header>
+
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <ul class="grid-temp">
+                    <li class="list-thead">
+                        <div class="thead-col">Forecasting Target</div>
+                    </li>  
+
+                    <div class="value-box">
+                        <div>Current Target Value : 
+                            <lightning-formatted-number value={currentTarget} format-style="currency"></lightning-formatted-number>
+                        </div>
+                        <lightning-input id="target" type="number" formatter="currency" name="value" class="qtyInp" variant="label-hidden"></lightning-input>
+                    </div>
+                </ul>
+            </div>
+
+            <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" onclick={handleCloseModal} name="Cancel" id="Cancel">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={handleClickSave} name="Save" id="Save">Save</button>
+            </footer>
+        </div>
+        
+    </section>
+</template>

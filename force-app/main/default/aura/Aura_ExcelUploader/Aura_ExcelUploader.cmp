@@ -1,0 +1,106 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 06-13-2024
+  @last modified by  : Hanyeong Choi
+-->
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId,force:appHostable" 
+                controller="ExcelUploaderController"
+                access="global">
+
+    <ltng:require scripts="{!$Resource.xlsx}" afterScriptsLoaded="{!c.scriptsLoaded}" />
+
+    <aura:attribute name="fileName" type="String" />
+    <aura:attribute name="tableData" type="List" />
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="reqFields" type="List" />
+    <aura:attribute name="listOfSearchObjects" type="List" />
+    <aura:attribute name="fileData" type="Object" />
+    <aura:attribute name="objectApiName" type="String" />
+    <aura:attribute name="isImported" type="Boolean" default="false" />
+    <aura:attribute name="libInitialized" type="Boolean" default="false" />
+    <aura:attribute name="isShow" type="Boolean" default="false" />
+    <aura:attribute name="isInsert" type="Boolean" default="true" />
+    <aura:attribute name="isCombo" type="Boolean" default="true" />
+    <aura:attribute name="searchkeyword" type="String" />
+    <aura:attribute name="placeholder" type="String" default="Search..." />
+
+    <lightning:card title="Excel File Upload" iconName="custom:custom19">
+        <aura:if isTrue="{!not(v.isShow)}">
+            <div class="field-search-box active-container">
+                <lightning:input 
+                    type="text"
+                    class="search-input"
+                    value="{!v.searchkeyword}" 
+                    placeholder="{!v.placeholder}" 
+                    onchange="{!c.handleSearchInput}" 
+                    onkeyup="{!c.handleKeyPress}">
+                </lightning:input>
+                <div class="search-results">
+                    <aura:iteration items="{!v.listOfSearchObjects}" var="result" indexVar="index">
+                        <div key="{!result.objectName}" class="custom-card" tabindex="{!index}" data-object-name="{!result.objectName}" onclick="{!c.handleSelectObject}">
+                            <div class="card-content">
+                                <lightning:icon iconName="{!result.iconPath}" size="small" class="icon"></lightning:icon>
+                                <span class="object-label">{!result.objectLabel}</span>
+                            </div>
+                        </div>
+                    </aura:iteration>
+                </div>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.isShow}">
+            <div class="slds-grid grid-container">
+                <div class="slds-col col-container">
+                    <div class="slds-is-relative">
+                        <div class="col-btn-container">
+                            <lightning:button
+                                aura:id="previousButton"
+                                label="Previous"
+                                onclick="{!c.handlePreviousButton}"
+                            ></lightning:button>
+                            &nbsp;&nbsp;
+                            <lightning:button 
+                                label="Upload" 
+                                variant="brand"
+                                onclick="{!c.handleUpload}" 
+                                class="slds-m-top_medium"
+                                disabled="{!v.isInsert}"
+                            ></lightning:button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-m-around_medium">
+                <lightning:input type="file" label="Upload Excel File" accept=".xlsx" onchange="{!c.handleFileChange}"></lightning:input>
+            </div>
+            <div>
+                {!v.fileName}
+            </div>
+    
+            <div class="slds-grid import-table-container">
+                <div class="slds-col slds-grow table-col-container">
+                    <c:excelTable 
+                        excelData="{!v.tableData}" 
+                        excelColumns="{!v.columns}"
+                        onrowselection="{!c.handleRowSelect}"
+                    ></c:excelTable>
+                </div>
+    
+                <div class="slds-col slds-p-around_medium paste-container">
+                    <aura:if isTrue="{!not(v.isImported)}">
+                        <div class="slds-align_absolute-center">
+                            <p>Please Upload Excel</p>
+                        </div>
+                    </aura:if>
+    
+                    <aura:if isTrue="{!v.isImported}">
+                        <aura:iteration items="{!v.columns}" var="col">
+                            <lightning:combobox key="{!col}" label="{!col.label}" options="{!v.reqFields}"></lightning:combobox>
+                        </aura:iteration>
+                    </aura:if>
+                </div>
+            </div>
+        </aura:if>
+    </lightning:card>
+</aura:component>

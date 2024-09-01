@@ -1,0 +1,42 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 06-12-2024
+  @last modified by  : Hanyeong Choi
+-->
+<aura:component implements="force:appHostable,force:hasRecordId,force:hasSObjectName,force:lightningQuickAction" controller="ForecastChartController" access="global" >
+    <aura:attribute name="currentTarget" type="Decimal" default="0" />
+
+    <aura:handler name="init" value="{!this}" action="{! c.doInit }" />
+    <aura:registerEvent name="closeModal" type="c:CloseModalEvent" />
+
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container slds-is-relative billing-comp" id="subTitleModal">
+            <header class="slds-modal__header">
+                <h2 aura:id="test" class="slds-modal__title slds-hyphenate">Edit Target Value</h2>
+            </header>
+
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <ul class="grid-temp">
+                    <li class="list-thead">
+                        <div class="thead-col">Forecasting Target</div>
+                    </li>  
+
+                    <div class="value-box">
+                        <div>Current Target Value : 
+                            <lightning:formattedNumber value="{!v.currentTarget}" formatStyle="currency"/>
+                        </div>
+                        <lightning:input aura:id="targetInput" type="number" formatter="currency" name="value" class="qtyInp" variant="label-hidden"/>
+                    </div>
+                </ul>
+            </div>
+
+            <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" onclick="{!c.handleCloseModal}" name="Cancel" id="Cancel">Cancel</button>
+                <button class="slds-button slds-button_brand" onclick="{!c.handleClickSave}" name="Save" id="Save">Save</button>
+            </footer>
+        </div>
+    </section>
+
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</aura:component>

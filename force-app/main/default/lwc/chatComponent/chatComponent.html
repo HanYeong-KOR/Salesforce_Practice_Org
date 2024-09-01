@@ -1,0 +1,40 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @group             : 
+  @last modified on  : 07-22-2024
+  @last modified by  : Hanyeong Choi
+  Modifications Log
+  Ver   Date         Author          Modification
+  1.0   07-19-2024   Hanyeong Choi   Initial Version
+-->
+<template>
+    <lightning-card title="Real-time Chat">
+        <div class="slds-m-around_medium">
+            <div class="slds-m-around_medium scroll">
+                <template if:true={messages}>
+                    <template for:each={messages} for:item="message">
+                        <div key={message.sender} class="slds-box slds-box_xx-small slds-m-bottom_small">
+                            <strong>{message.sender}</strong>: {message.content}
+                        </div>
+                    </template>
+                </template>
+            </div>
+            <lightning-input label="닉네임" value={sender} onkeydown={handleSenderChange} disabled={isNickname}></lightning-input>
+            <lightning-input class="message-input" label="메세지" value={message} onchange={handleMessageChange}></lightning-input>
+            <lightning-button label="Send" onclick={handleSend} disabled={isSend}></lightning-button>
+             <br /><br /><br />
+             <p>현재 참가인원 : {count}</p>
+            <lightning-button 
+                label="채팅방 참가" 
+                onclick={handleSubscribe} 
+                disabled={isSubscribeDisabled}
+            ></lightning-button>
+            <lightning-button 
+                label="채팅방 나가기" 
+                onclick={handleUnsubscribe} 
+                disabled={isUnsubscribeDisabled}
+            ></lightning-button>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,32 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 12-27-2023
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+    <lightning-card title="Chuck Norris Joke" icon-name="custom:custom11" class="card-container">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+        </template>
+
+        <div class="slds-m-horizontal_medium content-container">
+            <template if:true={joke}>
+                <div>
+                    <p data-id="engValue">{joke.value}</p>
+                </div>
+                <div>
+                    <p class="translated-text">{korText}</p>
+                </div>
+            </template>
+            <template if:true={error}>
+                <p>Error fetching Chuck Norris joke.</p>
+            </template>
+        </div>
+
+        <div class="slds-card__footer">
+            <lightning-button label="Get Joke" onclick={getRandomJoke}></lightning-button>
+            <lightning-button label="번역" onclick={getTranslate}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,21 @@
+:host {
+    display: block;
+}
+
+.slds-card {
+    padding: 20px;
+}
+
+.slds-m-horizontal_medium {
+    margin: 20px;
+}
+
+.content-container {
+    min-height: 50px;
+}
+
+.translated-text {
+    font-style: italic;
+    color: #888;
+    margin-top: 10px;
+}

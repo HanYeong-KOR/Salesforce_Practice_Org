@@ -1,0 +1,127 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 05-21-2024
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+    <lightning-card icon-name="custom:custom19" title="Opportunity Importer">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+        </template>
+
+        <div data-id="info" class="info-container">
+            <table>
+                <tr class="row-info">
+                    <th>Row Count : </th>
+                    <td>{rowCount}</td>
+                </tr>
+                <tr class="status-info">
+                    <th>Status : </th>
+                    <td>{status}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="slds-grid grid-container">
+            <div class="slds-col col-container">
+                <div class="slds-is-relative">
+                    <div class="col-btn-container">
+                        <lightning-button
+                            data-id="deleteButton"
+                            label="Remove Selected Rows"
+                            icon-name="utility:delete"
+                            variant="destructive"
+                            onclick={handleDeleteButton}
+                            disabled
+                        ></lightning-button>
+                        &nbsp;&nbsp;
+                        <lightning-button
+                            data-id="insertButton"
+                            variant="brand"
+                            label="Insert"
+                            icon-name="utility:new"
+                            onclick={showModal}
+                            disabled
+                        ></lightning-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid import-table-container">
+            <div class="slds-col slds-grow table-col-container">
+                <c-opportunity-import-table 
+                    onpaste={handlePaste}
+                    onrowselect={handleRowSelect}
+                ></c-opportunity-import-table>
+            </div>
+
+            <div class="slds-col slds-p-around_medium paste-container">
+                <template if:false={isPasted}>
+                    <div class="slds-align_absolute-center">
+                        <p>Paste spreadsheet data here.</p>
+                    </div>
+                </template>
+
+                <template if:true={isPasted}>
+                    <template for:each={mapcols} for:item="mapcol">
+                        <lightning-combobox key={mapcol} label={mapcol.label} options={reqFields}></lightning-combobox>
+                    </template>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+
+    <template if:true={showConfirmModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-size_1-of-3"></div>
+                        <div class="slds-col slds-size_1-of-3 slds-align_absolute-center">
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Import Confirmation</h2>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <div style="right:0; text-align:right;">
+                                <lightning-button-icon
+                                    onclick={hideModal}
+                                    icon-name="utility:close"
+                                    alternative-text="Close"
+                                    class="slds-m-left_xx-small"
+                                ></lightning-button-icon>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium modal-container" id="modal-content-id-1">
+                    <p>You are about to import the following records:</p>
+                    <table>
+                        <tr class="row-info">
+                            <th>Row Count: </th>
+                            <td>{rowCount}</td>
+                        </tr>
+                        <tr class="status-info">
+                            <th>Status: </th>
+                            <td>{status}</td>
+                        </tr>
+                    </table>
+                    <span class="error-container">{errorMsg}</span>
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <div class="slds-grid">
+                        <div class="slds-col cancel-container">
+                            <button class="slds-button slds-button_neutral" onclick={hideModal}>Cancel</button>
+                        </div>
+                        <div class="slds-col confirm-container">
+                            <button class="slds-button slds-button_brand" onclick={handleConfirmButton} data-id="modalConfirmButton">Confirm</button>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

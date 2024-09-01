@@ -1,0 +1,9 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 05-16-2024
+  @last modified by  : Hanyeong Choi
+-->
+<apex:page >
+    Start_Of_Session_Id{!$Api.Session_ID}End_Of_Session_Id
+</apex:page>

@@ -1,0 +1,17 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 06-03-2024
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+    <template if:true={hasYouTubeIdOrPlayListId}>
+        <c-basic-you-tube-player
+            you-tube-id={youTubeId}
+            play-list-id={playListId}
+        ></c-basic-you-tube-player>
+    </template>
+    <template if:false={hasYouTubeIdOrPlayListId}>
+        <lightning-card  title="YouTube ID field not found. Please double check the field name."></lightning-card>
+    </template>
+</template>

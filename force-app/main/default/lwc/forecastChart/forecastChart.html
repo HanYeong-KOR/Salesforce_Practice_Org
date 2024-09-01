@@ -1,0 +1,69 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 05-24-2024
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+    <lightning-card title="Forecasting Chart" icon-name="utility:chart">
+        <template if:true={isLoading}>    
+            <lightning-spinner></lightning-spinner>
+        </template>
+
+        <div class="card-body">
+            <div class="search-box">
+                <!-- ⭐Edit Target Window -->
+                <lightning-layout multiple-rows="true" class="slds-var-m-bottom_small">
+                    <lightning-layout-item size="10">
+                        <lightning-button   icon-name="utility:edit" 
+                                            icon-position="left"
+                                            label="Edit Target"
+                                            onclick={handleClickTargetEditBtn}>
+                        </lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout>
+
+                <!-- ⭐Forecasting Filter -->
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="10">
+                        <lightning-formatted-text class="title-label" value="Oppty Chance(%)"></lightning-formatted-text> 
+                        <br/>
+                        <lightning-combobox data-id="winRate"
+                                            variant="label-hidden"
+                                            options={winRate}
+                                            value={winRateDefault}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="10">
+                        <lightning-formatted-text class="title-label" value="Type"></lightning-formatted-text> 
+                        <br/>
+                        <lightning-combobox data-id="type"
+                                            variant="label-hidden"
+                                            options={type}
+                                            value={typeDefault}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="10" class="search-btn">
+                        <lightning-button   label="Search"
+                                            variant="brand"
+                                            onclick={handleSearchChart}>
+                        </lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+
+            <br />
+            <template if:true={isModal}>
+                <c-edit-target-modal onclosemodal={handleCloseModal}></c-edit-target-modal>
+                <div class="slds-backdrop slds-backdrop--open"></div>
+            </template>
+            <div class="chart-container">
+                <canvas class="barChart" lwc:dom="manual"></canvas>
+            </div>
+
+            <div class="table-page"></div>
+        </div>
+    </lightning-card>
+</template>

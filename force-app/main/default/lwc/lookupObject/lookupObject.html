@@ -1,0 +1,42 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 05-27-2024
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+    <div class="field-search-box">
+        <h3 style="font-size: 30px; font-weight:bold;">Search Object</h3> <br />
+        <lightning-input 
+            type="text"
+            class="search-input"
+            value={searchkeyword} 
+            placeholder={placeholder} 
+            onchange={handleSearchInput} 
+            onkeyup={handleKeyPress}>
+        </lightning-input>
+        <div class="search-results">
+            <template for:each={listOfSearchObjects} for:item="result" for:index="index">
+                <div key={result.objectName} class="custom-card" tabindex={index} data-object-name={result.objectName} onclick={handleSelectObject}>
+                    <div class="card-content">
+                        <lightning-icon icon-name={result.iconPath} size="small" class="icon"></lightning-icon>
+                        <span class="object-label">{result.objectLabel}</span>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <template if:true={isFields}>
+        <div class="field-search-box" style="margin-top: 20px;">
+            <h3 style="font-size: large; font-weight:bold;">Fields List</h3> <br />
+            <template for:each={listOfSearchFields} for:item="result" for:index="index">
+                <div key={result.objectName} class="custom-card" tabindex={index} data-object-name={result.fieldName} data-field-type={result.fieldType} onclick={handleSelectField}>
+                    <div class="card-content">
+                        <span class="object-label">{result.fieldLabel}</span>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
+</template>

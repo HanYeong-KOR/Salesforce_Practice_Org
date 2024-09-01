@@ -1,0 +1,30 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 05-28-2024
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+    <lightning-card title="Weather Forecast">
+        <template if:true={weatherData}>
+            <div class="slds-grid slds-wrap">
+                <template for:each={weatherData} for:item="forecast">
+                    <div key={forecast.forecastDate} class="slds-col slds-size_1-of-2 slds-p-around_small">
+                        <div class="slds-box slds-theme_default">
+                            <p class="slds-text-heading_small">{forecast.forecastDate} ({forecast.yoil})</p>
+                            <p>최저 온도 : {forecast.minTemp} °C</p>
+                            <p>최고 온도 : {forecast.maxTemp} °C</p>
+                            <p>오전 강수량 : {forecast.rainAm}%</p>
+                            <p>오후 강수량 : {forecast.rainPm}%</p>
+                            <p>오전 날씨 : {forecast.skyAm}</p>
+                            <p>오후 날씨 : {forecast.skyPm}</p>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+        <template if:true={error}>
+            <p class="slds-text-color_error">{error}</p>
+        </template>
+    </lightning-card>
+</template>

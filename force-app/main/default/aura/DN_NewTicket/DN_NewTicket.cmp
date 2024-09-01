@@ -1,0 +1,274 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @group             : 
+  @last modified on  : 07-18-2024
+  @last modified by  : Hanyeong Choi
+  Modifications Log
+  Ver   Date         Author          Modification
+  1.0   07-02-2024   Hanyeong Choi   Initial Version
+-->
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable"
+                access="global"
+                controller="DN_TicketTrainingController"
+                description="New Ticket List Button">
+
+    <!-- 🚩Aura Attribute -->
+    <aura:attribute name="isLoading"            type="Boolean"  default="false" />
+    <aura:attribute name="isNext"               type="Boolean"  default="false" />
+    <aura:attribute name="isDependency"         type="Boolean"  default="false" />
+    <aura:attribute name="recordTypeId"         type="String" />
+    <aura:attribute name="objectName"           type="String"   default="Case" />
+    <aura:attribute name="errorMsg"             type="String" />
+    <aura:attribute name="pageLayout"           type="Object" />
+    <aura:attribute name="initPageLayout"       type="Object" />
+    <aura:attribute name="adjustedPageLayout"   type="Object" />
+    <aura:attribute name="recordTypeOptions"    type="List"     default="[
+        { 'label' : 'Ticket',   'value' : 'Ticket'},
+        { 'label' : 'VOC',      'value' : 'VOC'}
+    ]" />
+    <aura:attribute name="radioValue"           type="String"   default="Ticket" />
+    <aura:attribute name="radioLabel"           type="String"   default="Ticket" />
+    <aura:attribute name="formulaFieldMap"      type="Map"      default="{}" />
+
+    <lightning:notificationsLibrary aura:id="notifLib" />
+
+    <!-- 🚩Aura Style -->
+    <aura:html tag="style">
+        @media (min-width: 48em) {
+            .slds-modal__container {
+                max-width: 50rem;
+            }
+        }
+
+        .slds-accordion__summary {
+            background-color: #dcdcdc80;
+            border: 1px solid #dcdcdc80;
+            border-radius: 7px;
+            padding: 7px!important;
+            margin-bottom: 10px!important
+        }    
+
+        lightning-primitive-icon {
+            disply: none;
+        }
+    </aura:html>
+
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <!-- 🚩Aura Header -->
+            <div class="slds-modal__header">
+                <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate" tabindex="-1">New Ticket</h1>
+            </div>
+            <!-- 🚩Loading Spinner -->
+            <aura:if isTrue="{! v.isLoading }">
+                <lightning:spinner size="large" variant="brand" alternativeText="Loading" />
+            </aura:if>
+
+            <!-- 🚩Select Record Type -->
+            <aura:if isTrue="{! !v.isNext }">
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <span class="record-label">Select a record type</span>
+                    <div class="slds-form slds-align_absolute-center">
+                        <lightning:radioGroup  
+                            name="radioGroup"
+                            options="{! v.recordTypeOptions }"
+                            value="{! v.radioValue }"
+                            type="radio"
+                            onchange="{! c.handleChangeRadio }">
+                        </lightning:radioGroup>
+                    </div>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{! c.handleCancel }">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick="{! c.handleNext }">Next</button>
+                </div>
+            </aura:if>
+
+            <aura:if isTrue="{! v.isNext }">
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-form slds-align_absolute-center">
+
+                        <!-- 🚩Layout -->
+                        <div class="form-container">
+                            <lightning:recordEditForm 
+                                aura:id="recordEditForm"
+                                objectApiName="{! v.objectName }">
+
+                                <!-- 🚩Ticket -->
+                                <aura:if isTrue="{! v.radioValue == 'Ticket' }">   
+                                    <lightning:accordion allowMultipleSectionsOpen="true" activeSectionName="{! v.initPageLayout.sectionLabel + 'A' }">
+                                        <lightning:accordionSection name="{! v.initPageLayout.sectionLabel + 'A' }" label="{! v.initPageLayout.sectionLabel }" class="section-container">
+                                            <aura:iteration items="{! v.initPageLayout.layoutColumnList }" var="data2">
+                                                <aura:if isTrue="{! v.initPageLayout.sectionStyle != 'OneColumn'}">
+                                                    <div class="main-container">
+                                                        <div class="main-container-1">
+                                                            <aura:if isTrue="{! data2.columnIndex == 1 }">
+                                                                <aura:iteration items="{! data2.layoutItemList }" var="data3">
+                                                                    <aura:if isTrue="{! data3.itemType == 'formula'}">
+                                                                        <lightning:input aura:id="recordFormulaField" type="text" name="{!data3.item}" label="{!data3.itemLabel}" disabled="true" value="" />
+                                                                        <aura:set attribute="else">
+                                                                            <lightning:inputField aura:id="recordField" fieldName="{! data3.item }" onchange="{! c.handleChangeFieldValue }" />
+                                                                        </aura:set>
+                                                                    </aura:if>
+                                                                </aura:iteration>
+                                                            </aura:if>
+                                                            <aura:if isTrue="{! data2.columnIndex == 2 }">
+                                                                <aura:iteration items="{! data2.layoutItemList }" var="data3">
+                                                                    <aura:if isTrue="{! data3.itemType == 'formula'}">
+                                                                        <lightning:input aura:id="recordFormulaField" type="text" name="{!data3.item}" label="{!data3.itemLabel}" disabled="true" value="" />
+                                                                        <aura:set attribute="else">
+                                                                            <lightning:inputField aura:id="recordField" fieldName="{! data3.item }" onchange="{! c.handleChangeFieldValue }" />
+                                                                        </aura:set>
+                                                                    </aura:if>
+                                                                </aura:iteration>
+                                                            </aura:if>
+                                                        </div>
+                                                    </div>
+    
+                                                    <aura:set attribute="else">
+                                                        <div class="main-container_one">
+                                                            <aura:iteration items="{! data2.layoutItemList }" var="data3">
+                                                                <aura:if isTrue="{! data3.itemType == 'formula'}">
+                                                                    <lightning:input aura:id="recordFormulaField" type="text" name="{!data3.item}" label="{!data3.itemLabel}" disabled="true" value="" />
+                                                                    <aura:set attribute="else">
+                                                                        <lightning:inputField aura:id="recordField" fieldName="{! data3.item }" />
+                                                                    </aura:set>
+                                                                </aura:if>
+                                                            </aura:iteration>
+                                                        </div>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </aura:iteration>
+                                        </lightning:accordionSection>
+                                    </lightning:accordion>
+    
+                                    <aura:if isTrue="{! v.isDependency }">
+                                        <aura:iteration items="{!v.adjustedPageLayout}" var="section">
+                                            <aura:if isTrue="{!section.sectionLabel != 'System Information'}">
+                                                <lightning:accordion allowMultipleSectionsOpen="true" activeSectionName="{! section.sectionLabel + 'A' }">
+                                                    <lightning:accordionSection name="{! section.sectionLabel + 'A' }" label="{! section.sectionLabel }" class="section-container">
+                                                        <aura:iteration items="{! section.layoutColumnList }" var="data2">
+                                                            <aura:if isTrue="{! section.sectionStyle != 'OneColumn'}">
+                                                                <div class="main-container">
+                                                                    <div class="main-container-1">
+                                                                        <aura:if isTrue="{! data2.columnIndex == 1 }">
+                                                                            <aura:iteration items="{! data2.layoutItemList }" var="data3">
+                                                                                <aura:if isTrue="{! data3.itemType == 'formula'}">
+                                                                                    <lightning:input aura:id="recordFormulaField" type="text" name="{!data3.item}" label="{!data3.itemLabel}" disabled="true" value="" />
+                                                                                    <aura:set attribute="else">
+                                                                                        <lightning:inputField aura:id="recordField" fieldName="{! data3.item }" onchange="{! c.handleChangeFieldValue }" />
+                                                                                    </aura:set>
+                                                                                </aura:if>
+                                                                            </aura:iteration>
+                                                                        </aura:if>
+                                                                        <aura:if isTrue="{! data2.columnIndex == 2 }">
+                                                                            <aura:iteration items="{! data2.layoutItemList }" var="data3">
+                                                                                <aura:if isTrue="{! data3.itemType == 'formula'}">
+                                                                                    <lightning:input aura:id="recordFormulaField" type="text" name="{!data3.item}" label="{!data3.itemLabel}" disabled="true" value="" />
+                                                                                    <aura:set attribute="else">
+                                                                                        <lightning:inputField aura:id="recordField" fieldName="{! data3.item }" onchange="{! c.handleChangeFieldValue }" />
+                                                                                    </aura:set>
+                                                                                </aura:if>
+                                                                            </aura:iteration>
+                                                                        </aura:if>
+                                                                    </div>
+                                                                </div>
+        
+                                                                <aura:set attribute="else">
+                                                                    <div class="main-container_one">
+                                                                        <aura:iteration items="{! data2.layoutItemList }" var="data3">
+                                                                            <aura:if isTrue="{! data3.itemType == 'formula'}">
+                                                                                <lightning:input aura:id="recordFormulaField" type="text" name="{!data3.item}" label="{!data3.itemLabel}" disabled="true" value="" />
+                                                                                <aura:set attribute="else">
+                                                                                    <lightning:inputField aura:id="recordField" fieldName="{! data3.item }" />
+                                                                                </aura:set>
+                                                                            </aura:if>
+                                                                        </aura:iteration>
+                                                                    </div>
+                                                                </aura:set>
+                                                            </aura:if>
+                                                        </aura:iteration>
+                                                    </lightning:accordionSection>
+                                                </lightning:accordion>
+                                            </aura:if>
+                                        </aura:iteration>
+                                    </aura:if>
+                                </aura:if>
+
+                                <!-- 🚩VOC -->
+                                <aura:if isTrue="{! v.radioValue == 'VOC' }">
+                                    <aura:iteration items="{!v.pageLayout}" var="section">
+                                        <aura:if isTrue="{!section.sectionLabel != 'System Information'}">
+                                            <lightning:accordion allowMultipleSectionsOpen="true" activeSectionName="{! section.sectionLabel + 'A' }">
+                                                <lightning:accordionSection name="{! section.sectionLabel + 'A' }" label="{! section.sectionLabel }" class="section-container">
+                                                    <aura:iteration items="{! section.layoutColumnList }" var="data2">
+                                                        <aura:if isTrue="{! section.sectionStyle != 'OneColumn'}">
+                                                            <div class="main-container">
+                                                                <div class="main-container-1">
+                                                                    <aura:if isTrue="{! data2.columnIndex == 1 }">
+                                                                        <aura:iteration items="{! data2.layoutItemList }" var="data3">
+                                                                            <aura:if isTrue="{! data3.itemType == 'formula'}">
+                                                                                <lightning:input aura:id="recordFormulaField" type="text" name="{!data3.item}" label="{!data3.itemLabel}" disabled="true" value="" />
+                                                                                <aura:set attribute="else">
+                                                                                    <lightning:inputField aura:id="recordField" fieldName="{! data3.item }" onchange="{! c.handleChangeFieldValue }" />
+                                                                                </aura:set>
+                                                                            </aura:if>
+                                                                        </aura:iteration>
+                                                                    </aura:if>
+                                                                    <aura:if isTrue="{! data2.columnIndex == 2 }">
+                                                                        <aura:iteration items="{! data2.layoutItemList }" var="data3">
+                                                                            <aura:if isTrue="{! data3.itemType == 'formula'}">
+                                                                                <lightning:input aura:id="recordFormulaField" type="text" name="{!data3.item}" label="{!data3.itemLabel}" disabled="true" value="" />
+                                                                                <aura:set attribute="else">
+                                                                                    <lightning:inputField aura:id="recordField" fieldName="{! data3.item }" onchange="{! c.handleChangeFieldValue }" />
+                                                                                </aura:set>
+                                                                            </aura:if>
+                                                                        </aura:iteration>
+                                                                    </aura:if>
+                                                                </div>
+                                                            </div>
+    
+                                                            <aura:set attribute="else">
+                                                                <div class="main-container_one">
+                                                                    <aura:iteration items="{! data2.layoutItemList }" var="data3">
+                                                                        <aura:if isTrue="{! data3.itemType == 'formula'}">
+                                                                            <lightning:input aura:id="recordFormulaField" type="text" name="{!data3.item}" label="{!data3.itemLabel}" disabled="true" value="" />
+                                                                            <aura:set attribute="else">
+                                                                                <lightning:inputField aura:id="recordField" fieldName="{! data3.item }" />
+                                                                            </aura:set>
+                                                                        </aura:if>
+                                                                    </aura:iteration>
+                                                                </div>
+                                                            </aura:set>
+                                                        </aura:if>
+                                                    </aura:iteration>
+                                                </lightning:accordionSection>
+                                            </lightning:accordion>
+                                        </aura:if>
+                                    </aura:iteration>
+                                </aura:if>
+
+                            </lightning:recordEditForm>
+                        </div>
+                    </div>
+                </div>
+                <!-- 🚩Aura Footer -->
+                <div class="slds-modal__footer">
+                    <aura:if isTrue="{! v.isNext }">
+                        <lightning:button onclick="{! c.handleBack }" label="Cancel" />
+
+                        <aura:set attribute="else">
+                            <lightning:button onclick="{! c.handleClose }" label="Cancel" />
+                        </aura:set>
+                    </aura:if>
+                    <lightning:button variant="brand" onclick="{! c.handleSaveRecord }" label="Save" />
+                    <aura:if isTrue="{! v.errorMsg != null}">
+                        <span style="color: red; float:left;">{!v.errorMsg}</span>
+                    </aura:if>
+                </div>
+            </aura:if>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</aura:component>

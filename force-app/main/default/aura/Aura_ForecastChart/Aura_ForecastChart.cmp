@@ -1,0 +1,95 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 06-12-2024
+  @last modified by  : Hanyeong Choi
+-->
+<aura:component implements="force:appHostable,force:hasRecordId,force:hasSObjectName,force:lightningQuickAction" controller="ForecastChartController" access="global" >
+
+    <ltng:require scripts="{!$Resource.ChartJS}" afterScriptsLoaded="{!c.scriptsLoaded}" />
+
+    <aura:attribute name="isLoading" type="Boolean" default="false"/>
+    <aura:attribute name="isModal" type="Boolean" default="false"/>
+    <aura:attribute name="chartInstance" type="Object"/>
+    <aura:attribute name="monthList" type="List" default="[]"/>
+    <aura:attribute name="rows" type="List" default="[]"/>
+    <aura:attribute name="winRateDefault" type="String" default="all"/>
+    <aura:attribute name="typeDefault" type="String" default="Stacked"/>
+    <aura:attribute name="winRateOptions" type="List" default="[
+        {'label': 'All', 'value': 'all'},
+        {'label': '10%', 'value': '10'},
+        {'label': '20%', 'value': '20'},
+        {'label': '50%', 'value': '50'},
+        {'label': '60%', 'value': '60'},
+        {'label': '70%', 'value': '70'},
+        {'label': '75%', 'value': '75'},
+        {'label': '90%', 'value': '90'},
+        {'label': '100%', 'value': '100'}
+    ]"/>
+    <aura:attribute name="typeOptions" type="List" default="[
+        {'label': '월별', 'value': 'monthType'},
+        {'label': '누적', 'value': 'Stacked'}
+    ]"/>
+
+    <aura:handler name="closeModal" event="c:CloseModalEvent" action="{!c.handleCloseModal}" />
+
+    <lightning:card title="Forecasting Chart" iconName="utility:chart">
+        <aura:if isTrue="{!v.isLoading}">    
+            <lightning:spinner alternativeText="Loading..."/>
+        </aura:if>
+
+        <div class="card-body">
+            <div class="search-box">
+                <!-- Edit Target Window -->
+                <lightning:layout multipleRows="true" class="slds-var-m-bottom_small">
+                    <lightning:layoutItem size="10">
+                        <lightning:button   iconName="utility:edit" 
+                                            iconPosition="left"
+                                            label="Edit Target"
+                                            onclick="{!c.handleClickTargetEditBtn}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+
+                <!-- Forecasting Filter -->
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="10">
+                        <lightning:formattedText class="title-label" value="Oppty Chance(%)"/>
+                        <br/>
+                        <lightning:combobox name="winRate"
+                                            aura:id="winRate"
+                                            variant="label-hidden"
+                                            options="{!v.winRateOptions}"
+                                            value="{!v.winRateDefault}"/>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="10">
+                        <lightning:formattedText class="title-label" value="Type"/>
+                        <br/>
+                        <lightning:combobox name="type"
+                                            aura:id="type"
+                                            variant="label-hidden"
+                                            options="{!v.typeOptions}"
+                                            value="{!v.typeDefault}"/>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="10" class="search-btn">
+                        <lightning:button   label="Search"
+                                            variant="brand"
+                                            onclick="{!c.handleSearchChart}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </div>
+
+            <br />
+            <aura:if isTrue="{!v.isModal}">
+                <c:Aura_EditTargetModal />
+            </aura:if>
+
+            <div class="chart-container">
+                <canvas class="barChart" aura:id="barChart"></canvas>
+            </div>
+
+            <div class="table-page"></div>
+        </div>
+    </lightning:card>
+</aura:component>

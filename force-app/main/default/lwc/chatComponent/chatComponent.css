@@ -1,0 +1,15 @@
+.slds-box {
+    border: 1px solid #d8dde6;
+    border-radius: 0.25rem;
+}
+
+.message-input {
+    margin-bottom: 1rem;
+}
+
+.scroll {
+    overflow-y: auto;
+    min-height: 700px;
+    max-height: 700px;
+    border-bottom: 3px solid green;
+}

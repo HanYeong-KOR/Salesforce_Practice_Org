@@ -1,0 +1,44 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 08-16-2024
+  @last modified by  : Hanyeong Choi
+-->
+<apex:page extensions="ListViewController"
+            standardController="Account"
+            recordSetVar="sobjects">
+
+    <html>
+        <head>
+        </head>
+        <body>
+            <div class="listview-record-delete">
+                <div>
+                    <div role="alertdialog" class="slds-modal slds-modal--prompt slds-fade-in-open">
+                        <div class="slds-modal__container slds-modal--prompt" role="document" id="prompt-message-wrapper" tabindex="0">
+                            <div class="slds-modal__header slds-theme--warning slds-theme--alert-texture">
+                                <h2 class="slds-text-heading--medium" id="prompt-heading-id">Confirm Delete</h2>
+                            </div>
+                            <div class="slds-modal__content slds-p-around--medium">
+                                <div>
+                                    <p>Are you sure you want to delete {!mySelectedSize} records?</p>
+                                </div>
+                            </div>
+                            <div class="slds-modal__footer slds-theme--default">
+                                <apex:form >
+                                    <apex:commandLink action="{!cancel}" value="" id="cancel">
+                                        <button class="slds-button slds-button--neutral">Cancel</button>
+                                    </apex:commandLink>
+                                    <apex:commandLink action="{!deleteRecords}" value="" id="delete">
+                                        <button class="slds-button slds-button--neutral">Delete Records</button>
+                                    </apex:commandLink>
+                                </apex:form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-backdrop slds-backdrop--open"></div>
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>

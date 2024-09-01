@@ -1,0 +1,23 @@
+.slds-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+}
+
+.slds-box {
+    border: 1px solid #d8dde6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.slds-text-heading_medium {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}

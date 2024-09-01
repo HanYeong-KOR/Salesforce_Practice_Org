@@ -1,0 +1,35 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 05-31-2024
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+    <!-- <lightning-notifications-library></lightning-notifications-library> -->
+    <template if:false={isDisplay}>
+        <template if:true={showModalSpinner}>
+            <lightning-spinner></lightning-spinner>
+        </template>
+        <div class="slds-grid slds-wrap" style="margin-bottom: 10px;">
+            <div>
+                <span class="slds-icon_container slds-icon-custom-custom53 slds-icon_small" title="Get Signature"></span>
+            </div>
+            <div class="slds-col" style="margin-left: 10px;">
+                <h3>
+                    <span class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle">Signature</span>
+                </h3>
+            </div>
+        </div>
+        <div class="slds-grid slds-grid_vertical" id="div_wrapper" style="width:100%;">
+            <div class="slds-col">
+                <c-signature-pad aura:id="signature" min-width="0.5" max-width="1.5" id="consumer"></c-signature-pad>
+            </div>
+            <div class="slds-col" style="display:flex;justify-content:center; margin-top: 10px;">
+                <div>
+                    <button class="slds-button slds-button_neutral" onclick={handleClear}>Clear</button>
+                    <button style="min-width:102px;" class="slds-button slds-button_brand" onclick={handleAcceptSignature}>Confirm</button>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

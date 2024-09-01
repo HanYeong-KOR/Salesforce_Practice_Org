@@ -1,0 +1,70 @@
+.THIS .search-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.THIS .search-input {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.THIS .search-results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+}
+
+.THIS .custom-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    flex: 1 1 calc(25% - 10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.THIS .custom-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.THIS .card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.THIS .icon {
+    margin-bottom: 5px;
+}
+
+.THIS .object-label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.THIS .pageBtn {
+    display: flex;
+    justify-content: center;
+}
+
+.THIS .downloadExcel {
+    margin-left: 10px;
+}

@@ -1,0 +1,66 @@
+.info-container {
+    position: absolute; 
+    top: 10px; 
+    right: 10px; 
+    border: 1px solid black;
+}
+
+.info-container .row-info th,
+.info-container .row-info td {
+    min-width: 100px;
+    padding: 1px;
+}
+
+.info-container .status-info th,
+.info-container .status-info td {
+    padding: 1px;
+}
+
+.grid-container {
+    position: absolute;
+    top: 5px;
+    width: 100vw;
+}
+
+.grid-container .col-container {
+    padding-left: 250px;
+    padding-right: 250px;
+}
+
+.grid-container .col-container .col-btn-container {
+    /* position: absolute; */
+    right: 0;
+}
+
+.import-table-container {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+}
+
+.import-table-container .table-col-container {
+    padding-left: 10px;
+    min-height: calc(100vh - 250px);
+    max-height: calc(100vh - 250px);
+    max-width: calc(100vw - 250px);
+}
+
+.import-table-container .paste-container {
+    width: 200px;
+}
+
+.modal-container {
+    min-height: 20rem;
+}
+
+.modal-container .error-container {
+    font-weight: bold;
+    color: red;
+}
+
+.cancel-container {
+    text-align: left;
+}
+
+.confirm-container {
+    text-align: right;
+}

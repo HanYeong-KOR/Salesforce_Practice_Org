@@ -1,0 +1,92 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 06-10-2024
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+    <article class="slds-card">
+        <header class="slds-card__header slds-grid">
+            <lightning-icon icon-name="custom:custom33" size="small" alternative-text="recordSearch"></lightning-icon> &nbsp;&nbsp;
+            <h2 class="slds-text-heading_small slds-truncate" style="font-weight: bold;">Account Record Search</h2>
+        </header>
+        <!--필터테이블-->
+        <div class="top-card">
+            <div class="btn-group">
+                <lightning-button-group>
+                    <lightning-button name="downloadExcel" label="엑셀" icon-name="doctype:excel" icon-position="left" onclick={handleClickExcelBtn} style="margin-left: 10px;"></lightning-button>  
+                </lightning-button-group>
+            </div>
+
+            <div class="search-box">
+                <div>
+                    <span>Account Name</span>
+                </div>
+                <div>
+                    <lightning-input 
+                        type="text"
+                        class="search-input"
+                        value={searchkeyword} 
+                        placeholder={placeholder} 
+                        onchange={handleSearchInput} 
+                        onkeyup={handleKeyPress}>
+                    </lightning-input>
+                    <lightning-button name="searchRecords" label="검색" variant="brand" onclick={handleClickSearchBtn}></lightning-button>
+                    <lightning-button name="paste" label="복사" onclick={handlePasteBtn}></lightning-button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-scrollable">
+            <div style="padding: 1rem 1.5rem;">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered IP-table">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="">Id</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="">Name</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="">Phone</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="">Billing Address</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template if:false={hasListOfSearchRecords}>
+                            <tr class="slds-hint-parent">
+                                <td scope="row" colspan="9" style="text-align: center;">
+                                    조회된 정보가 없습니다
+                                </td>
+                            </tr>
+                        </template>
+                        <template for:each={listOfSearchRecords} for:item="result" for:index="index">
+                            <tr class="slds-hint-parent" key={result.recordId} tabindex={index} data-record-id={result.recordId} onclick={handleSelectRecord}>
+                                
+                                <td scope="row" style="width: 10%;">
+                                    <div>{result.recordId}</div>
+                                </td>
+                                <td scope="row" style="width: 10%;">
+                                    <div>{result.recordName}</div>
+                                </td>
+                                <td scope="row" style="width: 10%;">
+                                    <div>{result.phone}</div>
+                                </td>
+                                <td scope="row" style="width: 10%;">
+                                    <div>{result.billingAddress}</div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <div class="slds-m-around_medium pageBtn">
+                <lightning-button label="Previous" onclick={handlePreviousPage} disabled={isFirstPage}></lightning-button>
+                <lightning-button label="Next" onclick={handleNextPage} disabled={isLastPage}></lightning-button>
+            </div>
+        </div>
+    </article>
+</template>

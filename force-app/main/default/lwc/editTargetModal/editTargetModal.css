@@ -1,0 +1,73 @@
+.grid-temp {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    transition: gap 0.3s;
+
+    border: 1px solid rgb(0 0 0 / 25%);
+    border-radius: 8px;
+}
+
+
+.grid-temp .list-thead {
+    display: grid;
+    grid-template-columns : 1fr;
+    align-items:center;
+    height: unset;
+    border: none;
+    background-color: #e4eaf6;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+
+}
+
+.grid-temp .value-box {
+    padding: 10px;
+}
+
+.copy-div .align-center-bymargin {
+    font-weight: 500;
+    margin: auto 0;
+}
+
+/* .copy-value .slds-input {
+    height: 300px;
+} */
+
+.list-thead .thead-col {
+    display: flex;
+    text-align: center;
+    padding: 10px 0px;
+    border-right: 1px solid white;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.list-thead .thead-col:last-child {
+    border-right: none;
+}
+
+.list-tbody {
+    display: grid;
+    grid-template-columns : repeat(2, 50%);
+    border-top: 1px solid rgb(0 0 0 / 25%);
+}
+
+.list-tbody .tbody-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid rgb(0 0 0 / 25%);
+    padding: 5px 8px;
+}
+
+.list-tbody .tbody-col:last-child {
+    border-right: none;
+}
+
+.button-wrap {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-bottom: 6px;
+}

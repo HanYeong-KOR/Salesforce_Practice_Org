@@ -1,0 +1,1 @@
+Trigger Encryption_AccountTrigger on Account(Before Insert, Before Update, Before Delete, After Insert, After Update, After Delete){ SBT_Encryption.TriggerManager.prepare().bind(new SBT_Encryption.EncryptionTriggerHandler()).execute(); }

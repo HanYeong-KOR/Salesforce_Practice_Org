@@ -1,0 +1,81 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 01-12-2024
+  @last modified by  : Hanyeong Choi
+-->
+<apex:page standardController="Quote" 
+            applyBodyTag="false" 
+            standardStylesheets="false" 
+            showHeader="false"
+            contentType="application/vnd.ms-excel#Quotation_{!Quote.Name}.xls"
+            cache="true">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <style>
+            @page {
+                size: A4 portrait;
+            }
+
+            .GB {
+                font-weight:bolder;
+                font-size:12pt;           
+            }
+            
+            table {
+                font-family: 'Arial'; 
+                font-size:9pt;
+                text-align:left;
+                border-collapse:collapse ;
+            }
+            
+            .items td {
+                font-size:10pt;
+                height: 40px;
+                border-top: thin solid #2e4486;
+                border-bottom: thin solid #2e4486;
+            }   
+
+            .details td {
+                font-size:8pt;
+                text-align:left;
+            }   
+
+            .pad {
+                border-top: thin solid #2e4486;
+                height: 0.23cm;
+            }
+        </style>
+    </head>
+    <body>
+        <table style="width: 100%">
+            <tr>
+                <td style="width: 0.5cm"/>  <!-- A -->
+                <td style="width: 0.9cm"/>  <!-- B -->
+                <td style="width: 2.9cm"/>  <!-- C -->
+                <td style="width: 7.9cm"/>  <!-- D -->
+                <td style="width: 1cm"/>    <!-- E -->
+                <td style="width: 2.4cm"/>  <!-- F -->
+                <td style="width: 2.4cm"/>  <!-- G -->
+                <td style="width: 2.4cm"/>  <!-- H -->
+            </tr>
+
+            <tr>
+                <td />
+                <td colspan="7" style="height:1.4cm; font-size:36pt; font-weight:bold">Document SAFER BLUE2</td>
+            </tr>
+            <tr>
+                <td />
+                <td colspan="7" style="height:1cm; font-size:36pt; font-weight:bold">QUOTATION</td>
+            </tr>
+            <tr>
+                <td />
+                <td colspan="2" style="height:0.8cm; font-size:16pt; font-weight:bold">Customer</td>
+                <td style="font-size:15pt; font-weight:bold">{!Quote.Account.Name}</td>
+                <td colspan="2" style="font-size:16pt; font-weight:bold">Attention</td>
+                <td colspan="2" style="font-size:15pt; font-weight:bold">담당자 귀중</td>
+            </tr>
+        </table>
+    </body>
+</apex:page>

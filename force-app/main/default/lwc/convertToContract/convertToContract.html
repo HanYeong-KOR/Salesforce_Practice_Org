@@ -1,0 +1,40 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 01-10-2024
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+
+    <!-- <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+        </template>
+
+        <div class="slds-modal__container slds-is-relative none">
+            <header class="slds-modal__header">
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-truncate">Convert To Contract</h2>
+            </header>
+
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <span class="spanStyle">계약을 생성하시겠습니까?</span>
+            </div>
+
+            <div class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" aria-label="Cancel" onclick={handleCloseModal}>Close</button>
+                <button class="slds-button slds-button_brand" onclick={handleConvertClick}>Convert</button>
+            </div>
+        </div>
+    </section> -->
+    <lightning-quick-action-panel header="Convert">
+        <div class="slds-p-around_large">
+            <span class="spanStyle">계약을 생성하시겠습니까?</span>
+        </div>
+
+        <div slot="footer">
+            <lightning-button variant="neutral" label="Cancel" onclick={handleCloseClick}></lightning-button>
+            <lightning-button variant="brand" label="Convert" class="slds-m-left_x-small" onclick={handleConvertClick}></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+    
+</template>

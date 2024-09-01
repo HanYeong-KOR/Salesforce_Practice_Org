@@ -1,0 +1,45 @@
+.news-article {
+    border-bottom: 1px solid #d8dde6;
+    padding: 10px 0;
+}
+
+.article-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #1a0dab;
+    text-decoration: none;
+}
+
+.atricle-image {
+    width: 100px;
+    height: 100px;
+}
+
+.article-description {
+    font-size: 0.9em;
+    color: #333;
+    margin-top: 5px;
+}
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.pagination lightning-button {
+    margin: 0 5px;
+}
+
+.pagination .active {
+    font-weight: bold;
+    background-color: #0070d2;
+    color: white;
+}

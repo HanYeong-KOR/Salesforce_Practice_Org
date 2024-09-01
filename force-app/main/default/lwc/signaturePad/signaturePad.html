@@ -1,0 +1,23 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 05-31-2024
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+    <div class="mb-signature-container" ontouchmove={handleTouchMove} ontouchstart={handleTouch}>
+        <template if:true={readOnly}>
+            <div class="mb-signature-pad-readonly">
+                <img alt="User Signature" src={signatureData} />
+            </div>
+        </template>
+        <template if:false={readOnly}>
+            <input type="text" class="esignature-hide" readonly />
+            <div class="mb-signature-pad" id={wrapperId}>
+                <div class="mb-signature-pad-body">
+                    <canvas id="myCanvas" width="500" height="200" style="border:1px solid #006dcc; margin-bottom: 0.5rem;"></canvas>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

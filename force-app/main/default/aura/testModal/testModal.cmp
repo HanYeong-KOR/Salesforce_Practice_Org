@@ -1,0 +1,63 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 06-04-2024
+  @last modified by  : Hanyeong Choi
+-->
+<aura:component implements="flexipage:availableForAllPageTypes,lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:appHostable,force:hasSObjectName,force:lightningQuickActionWithoutHeader"
+                access="global">
+
+    <aura:attribute name="recordId" type="String" default="{!v.recordId}" />
+    <aura:attribute name="isActiveToEdit" type="Boolean" default="false" />
+                
+    <div class="modal-container">
+        <section role="dialog"
+                tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" 
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container custom_modal">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!closeModal}">
+                        <lightning:icon iconName="utility:close" alternativeText="close" variant="inverse"></lightning:icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="header-wrap">
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">수금 Parameter</h2>
+                    </div>
+                </header>
+
+                <!-- 🚀 Mapping Information -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <!-- 📱Schedule Setting -->
+                    <div class="slds-card__header slds-grid custom-header">
+                        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                            <div class="slds-media__figure">
+                                <lightning:icon iconName="standard:product" alternativeText="Product" title="Product" size="small"></lightning:icon>
+                            </div>
+                            <div class="slds-media__body flex-between">
+                                <h2 class="slds-card__header-title">
+                                    <a href="#" class="slds-card__header-link slds-truncate" title="Products">
+                                        <span class="title">Parameter</span>
+                                    </a>
+                                </h2>
+                            </div>
+                        </header>
+                    </div>
+
+                    <!-- 🚀 Body! -->
+                    <div class="slds-card__body slds-card__body_inner custom_body">
+                        <div class="input-box second-tab">
+                            <p>Hello</p>
+                        </div>  
+                    </div>
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{!closeModal}"   title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand"   onclick="{!saveModal}"    title="OK"   disabled="{!isActiveToEdit}">Save</button>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:component>

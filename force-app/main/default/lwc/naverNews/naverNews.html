@@ -1,0 +1,32 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 05-30-2024
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+    <lightning-card title="Naver News">
+        <template if:true={newsArticles}>
+            <template for:each={newsArticles} for:item="article">
+                <div key={article.url} class="news-article">
+                    <lightning-layout>
+                        <lightning-layout-item size="12">
+                            <a href={article.url} target="_blank" class="article-title">{article.title}</a>
+                            <p class="article-description">{article.description}</p>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+            <div class="pagination">
+                <lightning-button label="Previous" onclick={handlePrevious} disabled={disablePrevious}></lightning-button>
+                <template for:each={pages} for:item="page">
+                    <lightning-button key={page} label={page} onclick={handlePageClick} data-page={page} class="active"></lightning-button>
+                </template>
+                <lightning-button label="Next" onclick={handleNext} disabled={disableNext}></lightning-button>
+            </div>
+        </template>
+        <template if:true={error}>
+            <div class="error-message">{error}</div>
+        </template>
+    </lightning-card>
+</template>

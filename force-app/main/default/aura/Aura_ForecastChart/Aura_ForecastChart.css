@@ -1,0 +1,125 @@
+.THIS .card-body {
+    padding : 1%;
+}
+
+.THIS .search-box .slds-grid.slds-wrap {
+    display: grid;
+    grid-template-columns: repeat(6, 300px);
+}
+
+.THIS .search-box .align-right {
+    grid-column-start: 3;
+}
+
+.THIS .search-box .btn-right {
+    float: right;
+}
+
+.THIS .chart-container {
+    position: relative;
+    height: 40vh;
+    width : 64vw;
+}
+
+.THIS .dropdown-box {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 12px;
+}
+
+.THIS .table-page {
+    margin-top: 20px;
+    width : 64vw;
+}
+
+.THIS .table-page > p {
+    display: flex;
+    justify-content: end;
+    margin-right: 4px;
+    margin-bottom: 8px;
+}
+
+.THIS .table-body {
+    display: grid;
+    grid-template-columns: 5.5% repeat(12, 7.875%);
+    border-bottom: 1px solid #EBEBEB;
+}
+
+.THIS .table-body.actual,
+.THIS .table-body.project,
+.THIS .table-body.oppty  {
+    margin-bottom: 2px;
+}
+
+.THIS .table-body__cell:nth-child(1) {
+    font-weight: bold;
+    font-size: small;
+}
+
+.THIS .table-body .table-body__cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.THIS .table-body.month .table-body__cell {
+    color: #A0A0A0;
+}
+
+.THIS .table-body .table-body__cell:last-child {
+    border-right: none!important;
+}
+
+.THIS .table-body.actual div:nth-child(1) {
+    border-left: 10px solid #D1EBB6;
+    border-radius: 5px;
+    color: #91D449;
+    padding-left: 12px;
+
+}
+
+.THIS .table-body.project div:nth-child(1) {
+    border-left: 10px solid #DBE6FF;
+    border-radius: 5px;
+    color: #709BFF;
+    padding-left: 12px;
+}
+
+.THIS .table-body.oppty div:nth-child(1) {
+    border-left: 10px solid #C7D6F2;
+    border-radius: 5px;
+    color: #1F5CCB;
+    padding-left: 12px;
+}
+
+.THIS .none-right {
+    border-right: none!important;
+}
+
+.THIS .none-bottom {
+    border-bottom: none!important;
+}
+
+.THIS .right {
+    padding-right: 5px;
+}
+
+.THIS .span-title {
+    margin-left: 4px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.THIS .center {
+    justify-content: center!important;
+}
+
+.THIS .month {
+    font-weight: bold;
+}
+
+.THIS .search-btn {
+    align-self: flex-end!important;
+}

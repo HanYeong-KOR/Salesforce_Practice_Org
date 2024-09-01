@@ -1,0 +1,22 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 05-17-2024
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+    <lightning-card title="숫자 맞추기 게임" icon-name="custom:custom14">
+        <lightning-button slot="actions" variant="Destructive" label="Restart" disabled={isRefresh} onclick={handleRestart}></lightning-button>
+        <div class="slds-p-around_medium">
+            <lightning-input type="text" label="플레이어 이름" value={user} onchange={handleUserChange}></lightning-input>
+            <lightning-button variant="brand" label="입장" onclick={handleEnterUser}></lightning-button>
+        </div>
+        <div class="slds-p-around_medium">
+            <lightning-input type="number" label="추측한 숫자" value={guess} disabled={isUser} onchange={handleChange}></lightning-input>
+            <lightning-button variant="brand" label="제출" disabled={isUser} onclick={handleSubmit}></lightning-button>
+
+            <div class="slds-m-top_medium" style="color: red; font-weight:bold;">남은 기회 : {chance}</div>
+            <div class="slds-m-top_medium">{result}</div>
+        </div>
+    </lightning-card>
+</template>

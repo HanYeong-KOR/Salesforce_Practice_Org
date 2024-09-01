@@ -1,0 +1,4 @@
+.slds-carousel__image>img {
+    max-height: 400px!important;
+    object-fit: contain!important;
+}

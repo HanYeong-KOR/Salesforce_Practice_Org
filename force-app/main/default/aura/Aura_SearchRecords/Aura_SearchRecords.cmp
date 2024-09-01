@@ -1,0 +1,113 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 06-13-2024
+  @last modified by  : Hanyeong Choi
+-->
+<aura:component implements="force:appHostable,force:hasRecordId,force:hasSObjectName,force:lightningQuickAction" 
+                controller="LookupController" 
+                access="global">
+
+    
+    <!-- 🚩Aura Library -->
+    <ltng:require scripts="{!$Resource.SheetJS}" afterScriptsLoaded="{!c.scriptsLoaded}" />
+
+    <!-- 🚩Aura Attribute -->
+    <aura:attribute name="sheetJsLoaded"            type="Boolean"  default="false" />
+    <aura:attribute name="hasListOfSearchRecords"   type="Boolean"  default="false" />
+    <aura:attribute name="isFirstPage"              type="Boolean"  default="true"  />
+    <aura:attribute name="isLastPage"               type="Boolean"  default="true"  />
+    <aura:attribute name="listOfSearchRecords"      type="List"     default="[]"    />
+    <aura:attribute name="searchkeyword"            type="String"                   />
+    <aura:attribute name="placeholder"              type="String"   default="Search..." />
+    <aura:attribute name="pageNumber"               type="Integer"  default="1"     />
+    <aura:attribute name="pageSize"                 type="Integer"  default="15"    />
+
+    <!-- 🚩Aura Navigation -->
+    <lightning:navigation aura:id="navService" />
+
+    <article class="slds-card">
+        <header class="slds-card__header slds-grid">
+            <lightning:icon iconName="custom:custom33" size="small" alternativeText="recordSearch"></lightning:icon> &nbsp;&nbsp;
+            <h2 class="slds-text-heading_small slds-truncate" style="font-weight: bold;">Account Record Search</h2>
+        </header>
+        <div class="top-card">
+            <div class="btn-group">
+                <lightning:buttonGroup>
+                    <lightning:button name="downloadExcel" class="downloadExcel" label="엑셀" iconName="doctype:excel" iconPosition="left" onclick="{!c.handleClickExcelBtn}"></lightning:button>  
+                </lightning:buttonGroup>
+            </div>
+
+            <div class="search-box">
+                <div>
+                    <span>Account Name</span>
+                </div>
+                <div>
+                    <lightning:input 
+                        type="text"
+                        class="search-input"
+                        value="{!v.searchkeyword}"
+                        placeholder="{!v.placeholder}"
+                        onchange="{!c.handleSearchInput}"
+                        onkeyup="{!c.handleKeyPress}">
+                    </lightning:input>
+                    <lightning:button name="searchRecords" label="검색" variant="brand" onclick="{!c.handleClickSearchBtn}"></lightning:button>
+                    <lightning:button name="paste" label="복사" onclick="{!c.handlePasteBtn}"></lightning:button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-scrollable">
+            <div style="padding: 1rem 1.5rem;">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered IP-table">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="">Id</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="">Name</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="">Phone</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="">Billing Address</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:if isTrue="{! !v.hasListOfSearchRecords}">
+                            <tr class="slds-hint-parent">
+                                <td scope="row" colspan="9" style="text-align: center;">
+                                    조회된 정보가 없습니다
+                                </td>
+                            </tr>
+                        </aura:if>
+                        
+                        <aura:iteration items="{!v.listOfSearchRecords}" var="result" indexVar="index">
+                            <tr class="slds-hint-parent" key="{!result.recordId}" tabindex="{!index}" data-record-id="{!result.recordId}" onclick="{!c.handleSelectRecord}">
+                                
+                                <td scope="row" style="width: 10%;">
+                                    <div>{!result.recordId}</div>
+                                </td>
+                                <td scope="row" style="width: 10%;">
+                                    <div>{!result.recordName}</div>
+                                </td>
+                                <td scope="row" style="width: 10%;">
+                                    <div>{!result.phone}</div>
+                                </td>
+                                <td scope="row" style="width: 10%;">
+                                    <div>{!result.billingAddress}</div>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+            <div class="slds-m-around_medium pageBtn">
+                <lightning:button label="Previous" onclick="{!c.handlePreviousPage}" disabled="{!v.isFirstPage}"></lightning:button>
+                <lightning:button label="Next" onclick="{!c.handleNextPage}" disabled="{!v.isLastPage}"></lightning:button>
+            </div>
+        </div>
+    </article>
+</aura:component>

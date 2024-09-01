@@ -1,0 +1,38 @@
+<!--
+  @description       : 
+  @author            : Hanyeong Choi
+  @last modified on  : 05-22-2024
+  @last modified by  : Hanyeong Choi
+-->
+<template>
+    <lightning-card title="도서 검색" icon-name="custom:custom11" class="card-container">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+        </template>
+
+        <div class="slds-m-horizontal_medium content-container">
+            <template if:true={isSearch}>
+                <lightning-carousel>
+                    <template for:each={answer} for:item="r">
+                        <lightning-carousel-image
+                            key={r.title}
+                            src={r.image}
+                            href={r.link}
+                            header={r.title}
+                            description={r.description}
+                            alternative-text="Book Image">
+                        </lightning-carousel-image>
+                    </template>
+                </lightning-carousel>
+            </template>
+
+            <div>
+                <lightning-input type="text" data-id="searchQuestion" onchange={handleChangeSearch}></lightning-input>
+            </div>
+        </div>
+
+        <div class="slds-card__footer">
+            <lightning-button label="검색" onclick={handleClickSearch}></lightning-button>
+        </div>
+    </lightning-card>
+</template>
